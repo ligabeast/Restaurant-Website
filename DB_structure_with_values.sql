@@ -1,8 +1,8 @@
-CREATE DATABASE mensaapplication
+CREATE DATABASE Restaurant
     CHARACTER SET UTF8mb4
     COLLATE utf8mb4_unicode_ci;
 
-USE mensaapplication;
+USE Restaurant;
 
 CREATE TABLE gerichte(
                          id BIGINT PRIMARY KEY,
@@ -78,8 +78,6 @@ CREATE TABLE ticket(
                        benutzer_id BIGINT,
                        CONSTRAINT FOREIGN KEY(benutzer_id) REFERENCES benutzer(id) ON DELETE CASCADE
 );
-
-USE mensaapplication;
 
 INSERT INTO `allergene` (`code`, `name`, `typ`) VALUES
                                                     ('a', 'Getreideprodukte', 'Getreide (Gluten)'),
