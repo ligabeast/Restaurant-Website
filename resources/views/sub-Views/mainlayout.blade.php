@@ -7,20 +7,20 @@
 
     <!-- Bootstrap CSS -->
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-        crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+            crossorigin="anonymous"
     />
     <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
     />
     <link
-        href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
-        rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{asset('/css/mainlayout.css')}}" />
+    <link rel="stylesheet" href="{{asset('/css/mainlayout.css')}}"/>
     <title>Mensa</title>
 
 </head>
@@ -50,26 +50,30 @@
                         <li class="nav-item">
                             <a href="/" style="cursor : pointer;" class="nav-link left_bar_items">Hauptseite</a>
                         </li>
-                        @if(\App\Models\Benutzer::whereId(Auth::id())->first()->admin)
+                        @if(\App\Models\User::whereId(Auth::id())->first()->admin)
                             <li class="nav-item">
                                 <a href="/adminbereich" style="cursor : pointer;" class="nav-link left_bar_items">Adminbereich</a>
                             </li>
                         @endif
                         <li class="nav-item">
-                            <a href="/bewertungen" style="cursor : pointer;" class="nav-link left_bar_items">Bewertungen</a>
+                            <a href="/bewertungen" style="cursor : pointer;"
+                               class="nav-link left_bar_items">Bewertungen</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/mein_konto" style="cursor : pointer;" class="nav-link left_bar_items">Mein Konto</a>
+                            <a href="/mein_konto" style="cursor : pointer;" class="nav-link left_bar_items">Mein
+                                Konto</a>
                         </li>
                         <li class="nav-item">
                             <a href="/abmeldung" style="cursor : pointer;" class="nav-link left_bar_items">Abmelden</a>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a style="cursor : pointer;" data-bs-toggle="modal" data-bs-target="#login" class="nav-link left_bar_items">Anmelden</a>
+                            <a style="cursor : pointer;" data-bs-toggle="modal" data-bs-target="#login"
+                               class="nav-link left_bar_items">Anmelden</a>
                         </li>
                         <li class="nav-item">
-                            <a style="cursor : pointer;" data-bs-toggle="modal" data-bs-target="#register" class="nav-link left_bar_items">Registrieren</a>
+                            <a style="cursor : pointer;" data-bs-toggle="modal" data-bs-target="#register"
+                               class="nav-link left_bar_items">Registrieren</a>
                         </li>
                     @endif
                 </ul>
@@ -88,15 +92,16 @@
 </div>
 
 <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-    crossorigin="anonymous">
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
 </script>
 </body>
-<footer class="bg-dark text-center text-white" style="height: 30%";>
+<footer class="bg-dark text-center text-white" style="height: 30%" ;>
     <div class="container p-4 pb-0">
         <section class="mb-4">
-            <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/baran-%C3%B6zbey-780875238/" role="button"
+            <a class="btn btn-outline-light btn-floating m-1"
+               href="https://www.linkedin.com/in/baran-%C3%B6zbey-780875238/" role="button"
             ><i class="fab fa-linkedin-in bi-linkedin"></i
                 ></a>
 

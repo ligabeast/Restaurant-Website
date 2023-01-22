@@ -8,7 +8,7 @@
             <a href="#All_ratings" class="nav-link">Alle Bewertungen</a>
         </li>
         <li class="nav-item">
-            <a href="#create_rating" class="nav-link">Erstelle Bewertung</a>
+            <a href="#create_rating" class="nav-link">Erstelle Rating</a>
         </li>
     </ul>
 @endsection
@@ -16,7 +16,7 @@
 @section('one')
     <div class="m-5 text-center" id="All_ratings">
         <h4 class="my-5 fw-bold text-center">Guten Tag, wir versuchen so transparent wie möglich zu sein, daher werden hier alle unsere Bewertungen unserer Kunden angezeigt.</h4>
-        @include('sub-Views.rating-table-all')
+        @include('sub-Views.rating-table')
     </div>
 @endsection
 

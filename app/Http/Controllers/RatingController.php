@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bewertung;
+use App\Models\Rating;
 use App\Http\Controller;
-use App\Models\gericht;
+use App\Models\Food;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BewertungController extends Controller
+class RatingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class BewertungController extends Controller
     public function index()
     {
         if(Auth::check()) {
-            return view('ratingpage', [ 'gerichte' => gericht::pluck('name')->toArray(),
-                                            'bewertungen' => Bewertung::orderBy('zeitpunkt', 'desc')->limit(30)->get()]);
+            return view('ratingpage', [ 'gerichte' => Food::pluck('name')->toArray(),
+                                            'bewertungen' => Rating::orderBy('created_at', 'desc')->limit(30)->get()]);
         }
         return abort(403);
     }
@@ -33,11 +33,11 @@ class BewertungController extends Controller
         if(Auth::check()) {
             if (isset($rd->rating) && isset($rd->bemerkung) && isset($rd->gericht) && strlen($rd->bemerkung) >= 5 && strlen($rd->bemerkung) <= 200) {
 
-                $rating = new Bewertung();
-                $rating->sterne_bewertung = $rd->rating;
-                $rating->bemerkung = $rd->bemerkung;
-                $rating->gerichte_id = $rd->gericht;
-                $rating->benutzer_id = Auth::id();
+                $rating = new Rating();
+                $rating->rating = $rd->rating;
+                $rating->comment = $rd->bemerkung;
+                $rating->food_id = $rd->gericht;
+                $rating->user_id = Auth::id();
                 $rating->save();
 
                 return redirect()->route('bewertungen');
@@ -52,13 +52,13 @@ class BewertungController extends Controller
 
     public function myRatings(Request $rd){
 
-        return view('meineBewertungen', ['bewertungen' => Bewertung::orderBy('zeitpunkt','desc')->where('benutzer_id','=',Auth::id())->get()]);
+        return view('meineBewertungen', ['bewertungen' => Rating::orderBy('zeitpunkt','desc')->where('benutzer_id','=',Auth::id())->get()]);
 
     }
 
     public function delete_rating(Request $rd){
-        if(Auth::check() && Bewertung::all()->where('id','=',$rd->id)->first()->benutzer_id == Auth::id()){
-            Bewertung::find($rd->id)->delete();
+        if(Auth::check() && Rating::all()->where('id','=',$rd->id)->first()->benutzer_id == Auth::id()){
+            Rating::find($rd->id)->delete();
             return redirect()->route('mein Konto');
         }
         abort(403, );

@@ -1,5 +1,5 @@
 <div class="container">
-    <form method="post" action="/admin_liste_speichern">
+    <form method="post" action="/admin_liste_speichern#user_list">
         {{csrf_field()}}
         <table class="table">
             <thead>
@@ -17,7 +17,7 @@
                     <th scope="col">{{$loop->iteration}}</th>
                     <td>{{$user->NAME}}</td>
                     <td>{{$user->email}}</td>
-                    <td>{{$user->letzteanmeldung}}</td>
+                    <td>{{$user->lastRegistration}}</td>
                     <td><input type="checkbox" name="{{$loop->iteration}}" value="{{$user->id}}"
                                @if($user->admin)
                                    checked

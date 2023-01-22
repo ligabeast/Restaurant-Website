@@ -19,8 +19,8 @@
             </div>
 
             <div onchange="openEmail()" class="container m-3" id="secondSelection" style="display: none;">
-                <label for="specification" class="text-white text-weight-bold control-label">Bitte spezifizieren Sie Ihren Grund</label>
-                <select required id="specification" name="specification" class="text-center form-control">
+                <label for="specifikation" class="text-white text-weight-bold control-label">Bitte spezifizieren Sie Ihren Grund</label>
+                <select required id="specifikation" name="specifikation" class="text-center form-control">
                     <option disabled selected>Bitte wählen Sie eine Option aus</option>
                 </select>
             </div>
@@ -66,7 +66,7 @@
 
     function openSecondSelection(){
         var second = document.getElementById('secondSelection');
-        var secondSelect = document.getElementById('specification');
+        var secondSelect = document.getElementById('specifikation');
 
         if(secondSelect.options.length != 1){
             removeOptions(secondSelect);

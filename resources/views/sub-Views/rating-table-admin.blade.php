@@ -15,11 +15,11 @@
             @foreach($bewertungen as $bewertung)
                 <tr>
                     <th scope="col">{{$loop->iteration}}</th>
-                    <td>{{$bewertung->gerichte_id}}</td>
-                    <td>{{$bewertung->sterne_bewertung}}</td>
-                    <td>{{$bewertung->bemerkung}}</td>
+                    <td>{{$bewertung->food_id}}</td>
+                    <td>{{$bewertung->rating}}</td>
+                    <td>{{$bewertung->comment}}</td>
                     <td><input type="checkbox" name="{{$loop->iteration}}" value="{{$bewertung->id}}"
-                        @if($bewertung->wird_angezeigt)
+                        @if($bewertung->highlighted)
                             checked
                         @endif
                         ></td>

@@ -15,14 +15,15 @@
             @foreach($tickets as $ticket)
                 <tr>
                     <th scope="col">{{$loop->iteration}}</th>
-                    <td>{{$ticket->grund}}</td>
-                    <td>{{$ticket->spezifiziert}}</td>                    <td>{{$ticket->email}}</td>
-                    <td>{{$ticket->zeitpunkt}}</td>
+                    <td>{{$ticket->reason}}</td>
+                    <td>{{$ticket->specifikation}}</td>
+                    <td>{{$ticket->email}}</td>
+                    <td>{{$ticket->created_at}}</td>
                     <td>
                         <select name="status_{{$ticket->id}}" id="status" class="text-center form-control" aria-label=".form-select-sm example">
-                            <option value="Ausstehend" @if($ticket->status == 'Ausstehend') selected @endif>Ausstehend</option>
-                            <option value="Bearbeitung" @if($ticket->status == 'Bearbeitung') selected @endif>Bearbeitung</option>
-                            <option value="Abgeschlossen" @if($ticket->status == 'Abgeschlossen') selected @endif>Abgeschlossen</option>
+                            <option value="Ausstehend" @if($ticket->state == 'Ausstehend') selected @endif>Ausstehend</option>
+                            <option value="Bearbeitung" @if($ticket->state == 'Bearbeitung') selected @endif>Bearbeitung</option>
+                            <option value="Abgeschlossen" @if($ticket->state == 'Abgeschlossen') selected @endif>Abgeschlossen</option>
                         </select>
                     </td>
                 </tr>

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controller;
-use App\Models\Benutzer;
-use App\Models\Bewertung;
+use App\Models\User;
+use App\Models\Rating;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,20 +18,20 @@ class AdminController extends Controller
      */
     public function index()
     {
-        if(Benutzer::whereId(Auth::id())->first()->admin){
-            return view('adminpanel', ['bewertungen' => Bewertung::all(),
-                                            'benutzer' => Benutzer::all(),
+        if(User::whereId(Auth::id())->first()->admin){
+            return view('adminpanel', ['bewertungen' => Rating::all(),
+                                            'benutzer' => User::all(),
                                             'tickets' => Ticket::all()]);
         }
         return abort(403);
     }
     public function ratings_save(Request $rd){
-        if(Benutzer::whereId(Auth::id())->first()->admin){
+        if(User::whereId(Auth::id())->first()->admin){
             DB::beginTransaction();
-            Bewertung::query()->update(['wird_angezeigt' => 0]);
-            for($x = 1; $x <= Bewertung::all()->count(); $x++){
+            Rating::query()->update(['highlighted' => 0]);
+            for($x = 1; $x <= Rating::all()->count(); $x++){
                 if($rd->$x){
-                    Bewertung::whereId($rd->$x)->update(['wird_angezeigt' => 1]);
+                    Rating::whereId($rd->$x)->update(['highlighted' => 1]);
                 }
             }
             DB::commit();
@@ -41,12 +41,12 @@ class AdminController extends Controller
     }
 
     public function change_admin(Request $rd){
-        if(Benutzer::whereId(Auth::id())->first()->admin){
+        if(User::whereId(Auth::id())->first()->admin){
             DB::beginTransaction();
-            Benutzer::query()->update(['admin' => 0]);
-            for($x = 1; $x <= Benutzer::all()->count(); $x++){
+            User::query()->update(['admin' => 0]);
+            for($x = 1; $x <= User::all()->count(); $x++){
                 if($rd->$x){
-                    Benutzer::whereId($rd->$x)->update(['admin' => 1]);
+                    User::whereId($rd->$x)->update(['admin' => 1]);
                 }
             }
             DB::commit();
@@ -56,17 +56,17 @@ class AdminController extends Controller
     }
 
     public function change_status(Request $rd){
-        if(Benutzer::whereId(Auth::id())->first()->admin){
+        if(User::whereId(Auth::id())->first()->admin){
             DB::beginTransaction();
             $id = Ticket::all()->pluck('id')->toArray();
             foreach($id as $d){
                 $tmp = 'status_'.$d;
                 if($rd->$tmp){
-                    Ticket::whereId($d)->update(['status' => $rd->$tmp]);
+                    Ticket::whereId($d)->update(['state' => $rd->$tmp]);
                 }
             }
             DB::commit();
-            return redirect()->route('admin');
+            return redirect('adminbereich#Ticket');
         }
         return abort(403);
     }

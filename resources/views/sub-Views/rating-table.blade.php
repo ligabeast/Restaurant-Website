@@ -10,14 +10,12 @@
         </thead>
         <tbody>
         @foreach($bewertungen as $bewertung)
-            @if($bewertung->wird_angezeigt)
-                <tr>
-                    <th scope="col">{{$loop->iteration}}</th>
-                    <td>{{$bewertung->gerichte_id}}</td>
-                    <td>{{$bewertung->sterne_bewertung}}</td>
-                    <td>{{$bewertung->bemerkung}}</td>
-                </tr>
-            @endif
+            <tr>
+                <th scope="col">{{$loop->iteration}}</th>
+                <td>{{$bewertung->food_id}}</td>
+                <td>{{$bewertung->rating}}</td>
+                <td>{{$bewertung->comment}}</td>
+            </tr>
         @endforeach
         </tbody>
     </table>

@@ -3,7 +3,7 @@
         <form method="post" action="/bewertung_verifizieren">
             {{ csrf_field()  }}
             <div class="container m-3">
-                <label for="gericht" class="text-white text-weight-bold control-label">Um welches Gericht handelt es sich?</label>
+                <label for="gericht" class="text-white text-weight-bold control-label">Um welches Food handelt es sich?</label>
                 <select onchange="openStars()" required name="gericht" id="gericht" class="mb-3 text-center form-control" aria-label=".form-select-sm example">
                     <option disabled selected>Bitte wählen Sie eine Option aus</option>
                     @foreach($gerichte as $gericht)

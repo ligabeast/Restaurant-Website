@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bewertung;
+use App\Models\Rating;
 use App\Models\Ticket;
-use App\Models\View_gerichte_informationen;
+use App\Models\View_food_information;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controller;
 
 
 
-class HauptseiteController extends Controller
+class MainController extends Controller
 {
     public function index(Request $rd){
         return view('mainpage',[
-            'gerichte' => View_gerichte_informationen::all(),
-            'bewertungen' => Bewertung::where('wird_angezeigt', '=', '1')->get()
+            'gerichte' => View_food_information::all(),
+            'bewertungen' => Rating::whereHighlighted(true)->get()
         ]);
     }
 
     public function create_ticket(Request $rd){
         if(Auth::check()){
             $t = new Ticket();
-            $t->grund = $rd->reason;
-            $t->spezifiziert = $rd->specification;
+            $t->reason = $rd->reason;
+            $t->specifikation = $rd->specifikation;
             $t->email = $rd->email;
-            $t->bemerkung = $rd->comment;
-            $t->benutzer_id = Auth::id();
+            $t->description = $rd->comment;
+            $t->user_id = Auth::id();
             $t->save();
             return redirect()->route('hauptseite');
         }

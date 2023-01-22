@@ -4,82 +4,68 @@ CREATE DATABASE Restaurant
 
 USE Restaurant;
 
-CREATE TABLE gerichte(
+CREATE TABLE foods(
                          id BIGINT PRIMARY KEY,
                          name VARCHAR(80) NOT NULL unique,
-                         beschreibung VARCHAR(800) NOT NULL,
-                         erfasst_am DATE NOT NULL,
-                         vegetarisch BOOLEAN NOT NULL,
+                         description VARCHAR(800) NOT NULL,
+                         vegetarian BOOLEAN NOT NULL,
                          vegan BOOLEAN NOT NULL,
-                         preis_intern DOUBLE NOT NULL,
-                         preis_extern DOUBLE NOT NULL CHECK(preis_extern >= preis_intern)
+                         price_intern DOUBLE NOT NULL,
+                         price_extern DOUBLE NOT NULL CHECK(price_extern >= price_intern)
 );
 
-CREATE TABLE allergene(
+CREATE TABLE allergens(
                           code CHAR(4) PRIMARY KEY,
                           name VARCHAR(300) NOT NULL,
                           typ VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE kategorien(
-                           id BIGINT PRIMARY KEY,
-                           name VARCHAR(80) NOT NULL,
-                           eltern_id BIGINT,
-                           bildname VARCHAR(200)
+
+CREATE TABLE food_have_allergen(
+                         code CHAR(4),
+                         food_id BIGINT,
+                         FOREIGN KEY(code) REFERENCES allergens(code) ON DELETE CASCADE,
+                         FOREIGN KEY(food_id) REFERENCES foods(id) ON DELETE CASCADE
 );
 
-CREATE TABLE gericht_hat_allergen(
-                                     code CHAR(4),
-                                     gericht_id BIGINT,
-                                     FOREIGN KEY(code) REFERENCES allergene(code) ON DELETE CASCADE,
-                                     FOREIGN KEY(gericht_id) REFERENCES gerichte(id) ON DELETE CASCADE
-);
-
-CREATE TABLE gericht_hat_kategorie(
-                                      gericht_id BIGINT,
-                                      kategorie_id BIGINT,
-                                      FOREIGN KEY(gericht_id) REFERENCES gerichte(id) ON DELETE CASCADE,
-                                      FOREIGN KEY(kategorie_id) REFERENCES kategorien(id) ON DELETE CASCADE
-);
-
-CREATE TABLE benutzer(
+CREATE TABLE users(
                          id BIGINT PRIMARY KEY AUTO_INCREMENT,
                          NAME VARCHAR(200) NOT NULL,
                          email VARCHAR(100) NOT NULL UNIQUE,
-                         passwort VARCHAR(200) NOT NULL,
+                         password VARCHAR(200) NOT NULL,
                          admin BOOLEAN NOT NULL DEFAULT false,
-                         anzahlfehler INT NOT NULL DEFAULT 0,
-                         anzahlanmeldungen INT NOT NULL DEFAULT 0,
-                         letzteanmeldung DATETIME,
-                         letzterfehler DATETIME
+                         countFailure INT NOT NULL DEFAULT 0,
+                         countRegistration INT NOT NULL DEFAULT 0,
+                         lastRegistration DATETIME,
+                         lastFailure DATETIME
 );
 
-CREATE TABLE bewertungen(
-                            id BIGINT Auto_INCREMENT,
-                            bemerkung VARCHAR(200),
-                            sterne_bewertung TINYINT,
-                            zeitpunkt DATE,
-                            gerichte_id BIGINT NOT NULL,
-                            benutzer_id BIGINT NOT NULL,
-                            wird_angezeigt boolean DEFAULT 0,
-                            FOREIGN KEY(gerichte_id) REFERENCES gerichte(id) ON DELETE CASCADE,
-                            FOREIGN KEY(benutzer_id) REFERENCES benutzer(id) ON DELETE CASCADE,
-                            PRIMARY KEY (id)
+CREATE TABLE ratings(
+                        id BIGINT Auto_INCREMENT,
+                        comment VARCHAR(200),
+                        rating TINYINT,
+                        created_at DATE DEFAULT NOW(),
+                        food_id BIGINT NOT NULL,
+                        user_id BIGINT NOT NULL,
+                        highlighted boolean DEFAULT 0,
+                        FOREIGN KEY(food_id) REFERENCES foods(id) ON DELETE CASCADE,
+                        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+                        PRIMARY KEY (id)
 );
 
 CREATE TABLE tickets(
                        id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                       grund VARCHAR(50) NOT NULL,
-                       status VARCHAR(50) DEFAULT 'Ausstehend' NOT NULL,
-                       spezifiziert VARCHAR(50) NOT NULL,
-                       bemerkung VARCHAR(200) NOT NULL,
+                       reason VARCHAR(50) NOT NULL,
+                       state VARCHAR(50) DEFAULT 'Ausstehend' NOT NULL,
+                       specifikation VARCHAR(50) NOT NULL,
+                       description VARCHAR(200) NOT NULL,
                        email VARCHAR(200) NOT NULL,
-                       zeitpunkt DATETIME DEFAULT NOW(),
-                       benutzer_id BIGINT,
-                       CONSTRAINT FOREIGN KEY(benutzer_id) REFERENCES benutzer(id) ON DELETE CASCADE
+                       created_at DATETIME DEFAULT NOW(),
+                       user_id BIGINT,
+                       CONSTRAINT FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-INSERT INTO `allergene` (`code`, `name`, `typ`) VALUES
+INSERT INTO `allergens` (`code`, `name`, `typ`) VALUES
                                                     ('a', 'Getreideprodukte', 'Getreide (Gluten)'),
                                                     ('a1', 'Weizen', 'Allergen'),
                                                     ('a2', 'Roggen', 'Allergen'),
@@ -102,28 +88,28 @@ INSERT INTO `allergene` (`code`, `name`, `typ`) VALUES
                                                     ('h3', 'Walnüsse', 'Allergen'),
                                                     ('i', 'Erdnüsse', 'Allergen');
 
-INSERT INTO `gerichte` (`id`, `name`, `beschreibung`, `erfasst_am`, `vegan`, `vegetarisch`, `preis_intern`, `preis_extern`) VALUES
-                                                                                                                                (1, 'Bratkartoffeln mit Speck und Zwiebeln', 'Kartoffeln mit Zwiebeln und gut Speck', '2020-08-25', 0, 0, 2.3, 4),
-                                                                                                                                (3, 'Bratkartoffeln mit Zwiebeln', 'Kartoffeln mit Zwiebeln und ohne Speck', '2020-08-25', 1, 1, 2.3, 4),
-                                                                                                                                (4, 'Grilltofu', 'Fein gewürzt und mariniert', '2020-08-25', 1, 1, 2.5, 4.5),
-                                                                                                                                (5, 'Lasagne', 'Klassisch mit Bolognesesoße und Creme Fraiche', '2020-08-24', 0, 0, 2.5, 4.5),
-                                                                                                                                (6, 'Lasagne vegetarisch', 'Klassisch mit Sojagranulatsoße und Creme Fraiche', '2020-08-24', 0, 1, 2.5, 4.5),
-                                                                                                                                (7, 'Hackbraten', 'Nicht nur für Hacker', '2020-08-25', 0, 0, 2.5, 4),
-                                                                                                                                (8, 'Gemüsepfanne', 'Gesundes aus der Region, deftig angebraten', '2020-08-25', 1, 1, 2.3, 4),
-                                                                                                                                (9, 'Hühnersuppe', 'Suppenhuhn trifft Petersilie', '2020-08-25', 0, 0, 2, 3.5),
-                                                                                                                                (10, 'Forellenfilet', 'mit Kartoffeln und Dilldip', '2020-08-22', 0, 0, 3.8, 5),
-                                                                                                                                (11, 'Kartoffel-Lauch-Suppe', 'der klassische Bauchwärmer mit frischen Kräutern', '2020-08-22', 0, 1, 2, 3),
-                                                                                                                                (12, 'Kassler mit Rosmarinkartoffeln', 'dazu Salat und Senf', '2020-08-23', 0, 0, 3.8, 5.2),
-                                                                                                                                (13, 'Drei Reibekuchen mit Apfelmus', 'grob geriebene Kartoffeln aus der Region', '2020-08-23', 0, 1, 2.5, 4.5),
-                                                                                                                                (14, 'Pilzpfanne', 'die legendäre Pfanne aus Pilzen der Saison', '2020-08-23', 0, 1, 3, 5),
-                                                                                                                                (15, 'Pilzpfanne vegan', 'die legendäre Pfanne aus Pilzen der Saison ohne Käse', '2020-08-24', 1, 1, 3, 5),
-                                                                                                                                (16, 'Käsebrötchen', 'schmeckt vor und nach dem Essen', '2020-08-24', 0, 1, 1, 1.5),
-                                                                                                                                (17, 'Schinkenbrötchen', 'schmeckt auch ohne Hunger', '2020-08-25', 0, 0, 1.25, 1.75),
-                                                                                                                                (18, 'Tomatenbrötchen', 'mit Schnittlauch und Zwiebeln', '2020-08-25', 1, 1, 1, 1.5),
-                                                                                                                                (19, 'Mousse au Chocolat', 'sahnige schweizer Schokolade rundet jedes Essen ab', '2020-08-26', 0, 1, 1.25, 1.75),
-                                                                                                                                (20, 'Suppenkreation á la Chef', 'was verschafft werden muss, gut und günstig', '2020-08-26', 0, 0, 0.5, 0.9);
+INSERT INTO `foods` (`id`, `name`, `description`, `vegan`, `vegetarian`, `price_intern`, `price_extern`) VALUES
+                                                                                                                                (1, 'Bratkartoffeln mit Speck und Zwiebeln', 'Kartoffeln mit Zwiebeln und gut Speck', 0, 0, 2.3, 4),
+                                                                                                                                (3, 'Bratkartoffeln mit Zwiebeln', 'Kartoffeln mit Zwiebeln und ohne Speck', 1, 1, 2.3, 4),
+                                                                                                                                (4, 'Grilltofu', 'Fein gewürzt und mariniert', 1, 1, 2.5, 4.5),
+                                                                                                                                (5, 'Lasagne', 'Klassisch mit Bolognesesoße und Creme Fraiche', 0, 0, 2.5, 4.5),
+                                                                                                                                (6, 'Lasagne vegetarisch', 'Klassisch mit Sojagranulatsoße und Creme Fraiche', 0, 1, 2.5, 4.5),
+                                                                                                                                (7, 'Hackbraten', 'Nicht nur für Hacker', 0, 0, 2.5, 4),
+                                                                                                                                (8, 'Gemüsepfanne', 'Gesundes aus der Region, deftig angebraten', 1, 1, 2.3, 4),
+                                                                                                                                (9, 'Hühnersuppe', 'Suppenhuhn trifft Petersilie', 0, 0, 2, 3.5),
+                                                                                                                                (10, 'Forellenfilet', 'mit Kartoffeln und Dilldip', 0, 0, 3.8, 5),
+                                                                                                                                (11, 'Kartoffel-Lauch-Suppe', 'der klassische Bauchwärmer mit frischen Kräutern', 0, 1, 2, 3),
+                                                                                                                                (12, 'Kassler mit Rosmarinkartoffeln', 'dazu Salat und Senf', 0, 0, 3.8, 5.2),
+                                                                                                                                (13, 'Drei Reibekuchen mit Apfelmus', 'grob geriebene Kartoffeln aus der Region', 0, 1, 2.5, 4.5),
+                                                                                                                                (14, 'Pilzpfanne', 'die legendäre Pfanne aus Pilzen der Saison', 0, 1, 3, 5),
+                                                                                                                                (15, 'Pilzpfanne vegan', 'die legendäre Pfanne aus Pilzen der Saison ohne Käse', 1, 1, 3, 5),
+                                                                                                                                (16, 'Käsebrötchen', 'schmeckt vor und nach dem Essen', 0, 1, 1, 1.5),
+                                                                                                                                (17, 'Schinkenbrötchen', 'schmeckt auch ohne Hunger', 0, 0, 1.25, 1.75),
+                                                                                                                                (18, 'Tomatenbrötchen', 'mit Schnittlauch und Zwiebeln', 1, 1, 1, 1.5),
+                                                                                                                                (19, 'Mousse au Chocolat', 'sahnige schweizer Schokolade rundet jedes Essen ab', 0, 1, 1.25, 1.75),
+                                                                                                                                (20, 'Suppenkreation á la Chef', 'was verschafft werden muss, gut und günstig', 0, 0, 0.5, 0.9);
 
-INSERT INTO `gericht_hat_allergen` (`code`, `gericht_id`) VALUES
+INSERT INTO `food_have_allergen` (`code`, `food_id`) VALUES
                                                               ('h', 1),
                                                               ('a3', 1),
                                                               ('a4', 1),
@@ -156,19 +142,8 @@ INSERT INTO `gericht_hat_allergen` (`code`, `gericht_id`) VALUES
                                                               ('f3', 15),
                                                               ('h3', 15);
 
-INSERT INTO `kategorien` (`id`, `eltern_id`, `name`, `bildname`) VALUES
-                                                                     (1, NULL, 'Aktionen', 'kat_aktionen.png'),
-                                                                     (2, NULL, 'Menus', 'kat_menu.gif'),
-                                                                     (3, 2, 'Hauptspeisen', 'kat_menu_haupt.bmp'),
-                                                                     (4, 2, 'Vorspeisen', 'kat_menu_vor.svg'),
-                                                                     (5, 2, 'Desserts', 'kat_menu_dessert.pic'),
-                                                                     (6, 1, 'Mensastars', 'kat_stars.tif'),
-                                                                     (7, 1, 'Erstiewoche', 'kat_erties.jpg');
 
-INSERT INTO `gericht_hat_kategorie` (`kategorie_id`, `gericht_id`) VALUES
-                                                                       (3, 1),	(3, 3),	(3, 4),	(3, 5),	(3, 6),	(3, 7),	(3, 9),	(4, 16), (4, 17), (4, 18), (5, 16), (5, 17), (5, 18);
-
-INSERT INTO benutzer(NAME, EMAIL, PASSWORT) VALUES
+INSERT INTO users(NAME, email, password) VALUES
                                                 ('Baran', 'Baran@test.de', 'INVALID'),
                                                 ('Baran2', 'Baran@2test.de', 'INVALID'),
                                                 ('Baran3', 'Baran@3test.de', 'INVALID'),
@@ -176,7 +151,7 @@ INSERT INTO benutzer(NAME, EMAIL, PASSWORT) VALUES
                                                 ('Baran5', 'Baran@5test.de', 'INVALID'),
                                                 ('Baran6', 'Baran@6test.de', 'INVALID');
 
-INSERT INTO bewertungen(bemerkung,sterne_bewertung,zeitpunkt,gerichte_id,benutzer_id) VALUES
+INSERT INTO ratings(comment,rating,created_at,food_id,user_id) VALUES
                                                                               ('Das hat mega geschmeckt, kann ich jedem empfehlen!', 5, '2022-07-21', 3, 6),
                                                                               ('Der Kellner war mega unfreundlich, jedoch schmeckt das Essen', 3, '2022-09-03', 4, 6),
                                                                               ('In meine Essen war ein Haar, GEHT GARNICHT!!', 1, '2022-11-15', 17, 6),
@@ -185,16 +160,16 @@ INSERT INTO bewertungen(bemerkung,sterne_bewertung,zeitpunkt,gerichte_id,benutze
                                                                               ('Obwohl ich Stammgast bin, wurde ich vom vorgesetzen angebrüllt, sehr Respektlos', 1, '2023-01-05', 8, 6),
                                                                               ('Die vegetarische Lasagne schmeckt sogar noch besser als die normale', 5, '2022-09-28', 6, 6);
 
-CREATE VIEW gerichte_informationen AS
-SELECT g.id, g.name, g.beschreibung, g.erfasst_am, g.vegetarisch, g.vegan, g.preis_intern, g.preis_extern, GROUP_CONCAT(a.name) AS 'allergene', GROUP_CONCAT(gha.code) AS 'allergene_code' FROM gerichte AS g
-                                                                                                                                                                                                    JOIN gericht_hat_allergen AS gha ON g.id = gha.gericht_id
-                                                                                                                                                                                                    JOIN allergene AS a ON a.code = gha.code
+CREATE VIEW food_information AS
+SELECT g.id, g.name, g.description, g.vegetarian, g.vegan, g.price_intern, g.price_extern, GROUP_CONCAT(a.name) AS 'allergens', GROUP_CONCAT(gha.code) AS 'allergens_code' FROM foods AS g
+                                                                                                                                                                                                    JOIN food_have_allergen AS gha ON g.id = gha.food_id
+                                                                                                                                                                                                    JOIN allergens AS a ON a.code = gha.code
 GROUP BY g.name;
 
-CREATE PROCEDURE incrementAnmeldung ( IN b_id BIGINT )
+CREATE PROCEDURE incrementRegistration ( IN b_id BIGINT )
 BEGIN
-    UPDATE benutzer SET benutzer.anzahlanmeldungen = benutzer.anzahlanmeldungen + 1
-    WHERE benutzer.id = b_id;
+    UPDATE users SET users.countRegistration = users.countRegistration + 1
+    WHERE users.id = b_id;
 END;
 
 

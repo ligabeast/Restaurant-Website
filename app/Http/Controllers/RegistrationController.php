@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controller;
-use App\Models\Benutzer;
-use App\Models\Bewertung;
+use App\Models\User;
+use App\Models\Rating;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Http\Request;
@@ -12,12 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
-class AnmeldungController extends Controller
+class RegistrationController extends Controller
 {
-    /**
-     * Registartion wird durchgeführt
-     * @param Request $rd
-     */
     public function register_validate(Request $rd)
     {
         $name = $rd->input('name',NULL);
@@ -25,10 +21,10 @@ class AnmeldungController extends Controller
         $passwort = Hash::make($rd->input('password',NULL));
 
         if($name && $email && $passwort){
-            $benutzer = new Benutzer();
-            $benutzer->attributes['name'] = $name;
-            $benutzer->attributes['email'] = $email;
-            $benutzer->attributes['passwort'] = $passwort;
+            $benutzer = new User();
+            $benutzer->NAME = $name;
+            $benutzer->email = $email;
+            $benutzer->password = $passwort;
             $benutzer->save();
             return redirect()->route('hauptseite', array('message' => 'Ihre Registrierung war erfolgreich'));
         }
@@ -45,9 +41,9 @@ class AnmeldungController extends Controller
             if(Auth::attempt(array('email' => $email, 'password' => $passwort))){
                 DB::beginTransaction();
 
-                DB::select(DB::raw("CALL incrementAnmeldung('$email');"));
-                Benutzer::whereEmail($email)->update(array('letzteanmeldung' => Carbon::now()));
-                Benutzer::whereEmail($email)->update(array('anzahlfehler' => 0));
+                DB::select(DB::raw("CALL incrementRegistration('$email');"));
+                User::whereEmail($email)->update(array('lastRegistration' => Carbon::now()));
+                User::whereEmail($email)->update(array('countFailure' => 0));
 
                 DB::commit();
 
@@ -56,8 +52,8 @@ class AnmeldungController extends Controller
         }
         DB::beginTransaction();
 
-        Benutzer::whereEmail($email)->update(array('letzterfehler' => Carbon::now()));
-        Benutzer::whereEmail($email)->increment('anzahlfehler', 1);
+        User::whereEmail($email)->update(array('lastFailure' => Carbon::now()));
+        User::whereEmail($email)->increment('countFailure', 1);
 
         DB::commit();
 
@@ -72,6 +68,6 @@ class AnmeldungController extends Controller
 
     public function my_account(Request $rd){
 
-        return view('myaccount', ['bewertungen' => Bewertung::whereBenutzer_id(Auth::id())->get()]);
+        return view('myaccount', ['bewertungen' => Rating::whereUserId(Auth::id())->get()]);
     }
 }

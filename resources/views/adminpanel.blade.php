@@ -5,10 +5,10 @@
 @section('navigation-bar')
     <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-            <a href="#shown_ratings" class="nav-link">Bewertung hervorheben</a>
+            <a href="#shown_ratings" class="nav-link">Rating hervorheben</a>
         </li>
         <li class="nav-item">
-            <a href="#user_list" class="nav-link">Benutzer Liste</a>
+            <a href="#user_list" class="nav-link">User Liste</a>
         </li>
         <li class="nav-item">
             <a href="#Ticket" class="nav-link">Ticket-Anfragen</a>
@@ -25,7 +25,7 @@
 
 @section('two')
     <div class="container" id="user_list">
-        <h3 class="text-center my-5 fw-bold">Benutzer Liste</h3>
+        <h3 class="text-center my-5 fw-bold">User Liste</h3>
         @include('sub-Views.userlist')
     </div>
 @endsection
