@@ -18,7 +18,7 @@ class RatingController extends Controller
     {
         if(Auth::check()) {
             return view('ratingpage', [ 'gerichte' => Food::pluck('name')->toArray(),
-                                            'bewertungen' => Rating::orderBy('created_at', 'desc')->limit(30)->get()]);
+                                            'bewertungen' => Rating::orderBy('created_at', 'desc')->get()]);
         }
         return abort(403);
     }
@@ -50,14 +50,8 @@ class RatingController extends Controller
         }
     }
 
-    public function myRatings(Request $rd){
-
-        return view('meineBewertungen', ['bewertungen' => Rating::orderBy('zeitpunkt','desc')->where('benutzer_id','=',Auth::id())->get()]);
-
-    }
-
     public function delete_rating(Request $rd){
-        if(Auth::check() && Rating::all()->where('id','=',$rd->id)->first()->benutzer_id == Auth::id()){
+        if(Auth::check() && Rating::whereId($rd->id)->first()->user_id == Auth::id()){
             Rating::find($rd->id)->delete();
             return redirect()->route('mein Konto');
         }
