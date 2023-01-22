@@ -32,7 +32,7 @@
 
 @section('three')
     <div class="container" id="Ticket">
-        <h3 class="text-center my-5 fw-bold">Alle Tickets</h3>
+        <h3 class="text-center my-5 fw-bold">Tickets</h3>
         @include('sub-Views.ticket-table')
     </div>
 @endsection

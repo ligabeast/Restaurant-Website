@@ -28,6 +28,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
-    protected $table = "ticket";
+    protected $table = "tickets";
     public $timestamps = false;
 }

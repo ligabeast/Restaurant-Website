@@ -67,7 +67,7 @@ CREATE TABLE bewertungen(
                             PRIMARY KEY (id)
 );
 
-CREATE TABLE ticket(
+CREATE TABLE tickets(
                        id BIGINT PRIMARY KEY AUTO_INCREMENT,
                        grund VARCHAR(50) NOT NULL,
                        status VARCHAR(50) DEFAULT 'Ausstehend' NOT NULL,
