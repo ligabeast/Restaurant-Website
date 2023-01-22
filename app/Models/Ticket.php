@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\Ticket
  *
  * @property int $id
- * @property string $reason
+ * @property string $category
  * @property string $state
  * @property string $specifikation
  * @property string $description
@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Ticket whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ticket whereUserId($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|Ticket whereCategory($value)
  */
 class Ticket extends Model
 {

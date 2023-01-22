@@ -25,7 +25,7 @@ class MainController extends Controller
     public function create_ticket(Request $rd){
         if(Auth::check()){
             $t = new Ticket();
-            $t->reason = $rd->reason;
+            $t->category = $rd->reason;
             $t->specifikation = $rd->specifikation;
             $t->email = $rd->email;
             $t->description = $rd->comment;

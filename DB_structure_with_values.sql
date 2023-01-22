@@ -55,7 +55,7 @@ CREATE TABLE ratings(
 
 CREATE TABLE tickets(
                        id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                       reason VARCHAR(50) NOT NULL,
+                       category VARCHAR(50) NOT NULL,
                        state VARCHAR(50) DEFAULT 'Ausstehend' NOT NULL,
                        specifikation VARCHAR(50) NOT NULL,
                        description VARCHAR(200) NOT NULL,

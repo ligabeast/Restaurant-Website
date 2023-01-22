@@ -20,7 +20,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Grund</th>
+                    <th scope="col">Kategorie</th>
                     <th scope="col">Spezifizierter Grund</th>
                     <th scope="col">Email</th>
                     <th scope="col">Zeitpunkt</th>
@@ -31,7 +31,7 @@
                 @foreach($tickets as $ticket)
                     <tr>
                         <th scope="col">{{$loop->iteration}}</th>
-                        <td>{{$ticket->reason}}</td>
+                        <td>{{$ticket->category}}</td>
                         <td>{{$ticket->specifikation}}</td>
                         <td>{{$ticket->email}}</td>
                         <td>{{$ticket->created_at}}</td>
@@ -56,7 +56,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Grund</th>
+                    <th scope="col">Kategorie</th>
                     <th scope="col">Spezifizierter Grund</th>
                     <th scope="col">Email</th>
                     <th scope="col">Zeitpunkt</th>
@@ -68,7 +68,7 @@
                     @if($ticket->state == 'Ausstehend')
                         <tr>
                             <th scope="col">{{$loop->iteration}}</th>
-                            <td>{{$ticket->reason}}</td>
+                            <td>{{$ticket->category}}</td>
                             <td>{{$ticket->specifikation}}</td>
                             <td>{{$ticket->email}}</td>
                             <td>{{$ticket->created_at}}</td>
@@ -94,7 +94,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Grund</th>
+                    <th scope="col">Kategorie</th>
                     <th scope="col">Spezifizierter Grund</th>
                     <th scope="col">Email</th>
                     <th scope="col">Zeitpunkt</th>
@@ -106,7 +106,7 @@
                     @if($ticket->state == 'Bearbeitung')
                         <tr>
                             <th scope="col">{{$loop->iteration}}</th>
-                            <td>{{$ticket->reason}}</td>
+                            <td>{{$ticket->category}}</td>
                             <td>{{$ticket->specifikation}}</td>
                             <td>{{$ticket->email}}</td>
                             <td>{{$ticket->created_at}}</td>
@@ -132,7 +132,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Grund</th>
+                    <th scope="col">Kategorie</th>
                     <th scope="col">Spezifizierter Grund</th>
                     <th scope="col">Email</th>
                     <th scope="col">Zeitpunkt</th>
@@ -144,7 +144,7 @@
                     @if($ticket->state == 'Abgeschlossen')
                         <tr>
                             <th scope="col">{{$loop->iteration}}</th>
-                            <td>{{$ticket->reason}}</td>
+                            <td>{{$ticket->category}}</td>
                             <td>{{$ticket->specifikation}}</td>
                             <td>{{$ticket->email}}</td>
                             <td>{{$ticket->created_at}}</td>
