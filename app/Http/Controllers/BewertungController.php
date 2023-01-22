@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Benutzer;
 use App\Models\Bewertung;
-use App\Http\Controllers\Controller;
+use App\Http\Controller;
 use App\Models\gericht;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

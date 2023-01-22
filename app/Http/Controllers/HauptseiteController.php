@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\LogInformation;
-use App\Models\Benutzer;
 use App\Models\Bewertung;
-use App\Models\gericht;
 use App\Models\Ticket;
 use App\Models\View_gerichte_informationen;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\FirePHPHandler;
+use App\Http\Controller;
 
 
 

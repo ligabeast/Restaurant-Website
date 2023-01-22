@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controller;
 use App\Models\Benutzer;
 use App\Models\Bewertung;
-use App\Models\gericht;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use App\Http\Middleware\LogInformation;
 
 
 class AnmeldungController extends Controller

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-use App\Http\Controllers\Controller;
+use App\Http\Controller;
 use App\Models\Benutzer;
 use App\Models\Bewertung;
 use App\Models\Ticket;
