@@ -23,6 +23,11 @@
 @include('sub-Views.register')
 
 @section('one')
+    @if(isset($message) && isset($alert_mode))
+        <div class="m-5 alert fw-bold text-center alert-{{$alert_mode}}" role="alert">
+            {{$message}}
+        </div>
+    @endif
     <h3 class="text-center my-5 fw-bold" id="release">Ankündigung</h3>
     @include('sub-Views.release-text')
 @endsection

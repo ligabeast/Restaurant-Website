@@ -16,7 +16,9 @@ class MainController extends Controller
     public function index(Request $rd){
         return view('mainpage',[
             'gerichte' => View_food_information::all(),
-            'bewertungen' => Rating::whereHighlighted(true)->get()
+            'bewertungen' => Rating::whereHighlighted(true)->get(),
+            'message' => $rd->message,
+            'alert_mode' => $rd->alert_mode
         ]);
     }
 

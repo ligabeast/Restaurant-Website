@@ -9,15 +9,15 @@
                         {{ csrf_field() }}
                         <div class="container mb-3">
                             <label class="text-white">Name</label>
-                            <input name="name" class="form-control" type="text">
+                            <input REQUIRED name="name" class="form-control" type="text">
                         </div>
                         <div class="container mb-3">
                             <label class="text-white">Email</label>
-                            <input name="email" class="form-control" type="email">
+                            <input REQUIRED name="email" class="form-control" type="email">
                         </div>
                         <div class="container mb-3">
                             <label class="text-white"for="passwd">Passwort</label>
-                            <input name="password" id="passwd" class="form-control" type="password">
+                            <input REQUIRED name="password" id="passwd" class="form-control" type="password">
                         </div>
                         <div class="container mb-3 text-center">
                             <input type="submit" class="register-button w-75 p-2 fw-bold rounded btn-white" value="Registrieren">
@@ -28,6 +28,7 @@
         </div>
     </div>
 </div>
+
 <style>
     .btn-close{
         position: absolute;

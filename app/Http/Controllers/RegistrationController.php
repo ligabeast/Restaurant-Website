@@ -10,25 +10,41 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 class RegistrationController extends Controller
 {
     public function register_validate(Request $rd)
     {
-        $name = $rd->input('name',NULL);
-        $email = $rd->input('email',NULL);
-        $passwort = Hash::make($rd->input('password',NULL));
+        $input['name'] = $rd->input('name',NULL);
+        $input['email'] = $rd->input('email',NULL);
+        $input['passwort'] = Hash::make($rd->input('password',NULL));
 
-        if($name && $email && $passwort){
+        if($input['name'] && $input['email'] && $input['passwort']) {
+
+            $rules = array( 'email' => 'unique:users,email',
+                            'name' => 'unique:users,name');
+
+            $validator = Validator::make($input, $rules);
+
+            if($validator->fails()){
+                return redirect()->route('hauptseite', array(
+                    'message' => 'Name oder Email sind bereits vergeben!',
+                    'alert_mode' => 'danger'));
+            }
             $benutzer = new User();
-            $benutzer->NAME = $name;
-            $benutzer->email = $email;
-            $benutzer->password = $passwort;
+            $benutzer->NAME = $input['name'];
+            $benutzer->email = $input['email'];
+            $benutzer->password = $input['passwort'];
             $benutzer->save();
-            return redirect()->route('hauptseite', array('message' => 'Ihre Registrierung war erfolgreich'));
+            return redirect()->route('hauptseite', array(
+                'message' => 'Sie haben sich erfolgreich registriert!',
+                'alert_mode' => 'success'));
         }
-        return abort(404);
+        return redirect()->route('hauptseite', array(
+            'message' => 'Bitte füllen Sie jedes Feld aus!',
+            'alert_mode' => 'warning'));
     }
 
     public function sign_in_validate(Request $rd){
@@ -38,7 +54,9 @@ class RegistrationController extends Controller
 
         if($email && $passwort){
             //password is beein automaticlly hashed by attempt function
+
             if(Auth::attempt(array('email' => $email, 'password' => $passwort))){
+
                 DB::beginTransaction();
 
                 DB::select(DB::raw("CALL incrementRegistration('$email');"));
@@ -57,7 +75,9 @@ class RegistrationController extends Controller
 
         DB::commit();
 
-        return redirect()->route('hauptseite');
+        return redirect()->route('hauptseite', array(
+            'message' => 'Passwort oder Email falsch!!',
+            'alert_mode' => 'danger'));
     }
 
     public function sign_out(Request $rd){
