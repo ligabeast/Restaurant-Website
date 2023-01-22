@@ -1,0 +1,15 @@
+.left_bar_items:hover{
+    background-color: #b7b9bd;
+}
+.form-select option{
+    background-color: #b7b9bd;
+}
+.left_bar_items{
+    font-weight: bold;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.left_bar{
+    position: fixed;
+    width: 25%;
+}

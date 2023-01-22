@@ -1,0 +1,6 @@
+.login-link:hover{
+    cursor: pointer;
+}
+#release, #food, #opinion, #contact{
+    scroll-margin-top: 100px;
+}
