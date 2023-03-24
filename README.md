@@ -11,7 +11,6 @@ I created this project to improve my Laravel/PHP knowledge. At the time when i d
 
 Mainsite: 
 ![image](https://user-images.githubusercontent.com/114762651/227593698-37f93229-1dad-4548-b0bc-a5f56aa161e4.png) You can see i'm right now authenticated.
-
 A non authenticated user would only see "sign-in" and "register".
 
 
