@@ -22,9 +22,13 @@ Only if you selected the first drop-down, the second will visible, and so on ...
 #Functions
 
 -Users are able to rate foods and delete them 
+
 -Users can see selected ratings by admins
+
 -Admins can process tickets and set them to different status
+
 -Admins can see user activitys (last login, ....) and set users to admin
+
 
 ## 2. Used Technologys
 
